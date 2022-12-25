@@ -6,7 +6,6 @@ if cap.isOpened() == False:
     print("Problem with Opening Camera:")
     sys.exit()
     
-
 while(cap.isOpened()):
     ret, frame = cap.read()
     if ret == False:

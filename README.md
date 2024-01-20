@@ -9,6 +9,7 @@
 - every color image are in metrix(3x3x3)
 - every color is made up of RGB intensity 
 ![Alt text](https://qph.cf2.quoracdn.net/main-qimg-b812e8fc338dc7706e3767dc02cc89ad)
+- higher the pixel better the image
 
 
 

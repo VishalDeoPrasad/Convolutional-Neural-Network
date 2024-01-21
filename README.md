@@ -169,7 +169,9 @@ def baseline(height=128, width=128):
     return model
 model = baseline()
 model.summary()
+```
 
+```python
 Model: "model_cnn"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   

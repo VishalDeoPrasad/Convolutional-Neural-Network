@@ -103,6 +103,7 @@
 
  ## Max Pool
   - max pool is also a kind of convalution operation only with some filter size, this operation took max out of it. 
+  - remove unwanted neuron that is comes up during convolution.
   - this is a clean up process, we are saying just give me max out of it.
   - when we train a kernal which can learn only tree(suppose) object from an image, there is high chances that that kernal takes some part of sun(suppose) so for that we need some clean up process, this clean up process is called max pooling.
   - suppose we have 28x28x3 image and we apply dot product with 3x3x100 kernal it will generate 26x26x100 feature map.
@@ -117,9 +118,79 @@
  - then we pass it to dense layer to predict the tree, that is what convoltution articture looks like.
 ![Alt text](image-3.png)
 
+## Flatten 
+ - after the max pooling, we having much smaller feature map(4x4 suppose).
+ - one thing we can do we average it out, or 
+ - flatten the complete feature map beacuse all the other feature is already eliminiated, we left with our desire output(tree for example)
 
+## Resizing
+  - our aim is to reduct our image to 28x28 if the image size is 100x300, then how can you choose, crop it to 28x28, are you going to crop or zoom.
+  - so for that we are using something called Bilinear Interpolation.
+  - ![Alt text](image-4.png)
 
+## Create a Squential Pipeline
+  ```python
+  def preprocess(train_data, val_data, test_data, target_height=128, target_width=128):
 
+    # Data Processing Stage with resizing and rescaling operations
+    data_preprocess = keras.Sequential(
+        name="data_preprocess",
+        layers=[
+            layers.Resizing(target_height, target_width),
+            layers.Rescaling(1.0/255),
+        ]
+    )
+
+    # Perform Data Processing on the train, val, test dataset
+    train_ds = train_data.map(lambda x, y: (data_preprocess(x), y), num_parallel_calls=tf.data.AUTOTUNE)
+    val_ds = val_data.map(lambda x, y: (data_preprocess(x), y), num_parallel_calls=tf.data.AUTOTUNE)
+    test_ds = test_data.map(lambda x, y: (data_preprocess(x), y), num_parallel_calls=tf.data.AUTOTUNE)
+
+    return train_ds, val_ds, test_ds
+  train_ds, val_ds, test_ds = preprocess(train_data, val_data, test_data)
+  ```
+
+## Model Architecture
+```python
+def baseline(height=128, width=128):
+    num_classes = 10
+    hidden_size = 256
+
+    model = keras.Sequential(
+        name="model_cnn",
+        layers=[
+            layers.Conv2D(filters=16, kernel_size=3, padding="same", activation='relu', input_shape=(height, width, 3)),
+            layers.MaxPooling2D(), #by default pool size=(2x2) and stride size=2
+            layers.Flatten(),
+            layers.Dense(units=hidden_size, activation='relu'),
+            layers.Dense(units=num_classes, activation='softmax')
+        ]
+    )
+    return model
+model = baseline()
+model.summary()
+
+Model: "model_cnn"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ conv2d (Conv2D)             (None, 128, 128, 16)      448       
+                                                                 
+ max_pooling2d (MaxPooling2D  (None, 64, 64, 16)       0         
+ )                                                               
+                                                                 
+ flatten (Flatten)           (None, 65536)             0         
+                                                                 
+ dense (Dense)               (None, 256)               16777472  
+                                                                 
+ dense_1 (Dense)             (None, 10)                2570      
+                                                                 
+=================================================================
+Total params: 16,780,490
+Trainable params: 16,780,490
+Non-trainable params: 0
+_________________________________________________________________
+```
 
 
 

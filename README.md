@@ -51,6 +51,56 @@
 - so basically i took the image of the sun, tree, and car, and then using the kernels i learnt different featueres of the sun, tree and car and presented them in feature maps.
 - neural network is basically going to learn the weights of the kernels.
 
-**Dot product happen 3 channel of color with kernal**
+- **Dot product happen 3 channel of color with kernal**
 
-## this is pull test
+## what is information in an image?
+- Varision in the pixel intensity is the inforamtion of an image.
+- certain pixel are club together or present together that form an object.
+
+## what happend when we flatten an image?
+- when we flatten the image complelty and crate the 1 dimenstitional vector that vector, that vector the problem is that we loos locational or speical corelational.
+
+## Feature Extraction
+- if we do dot product it will extract feature.
+- suppose if my kernal contain plus sign if it do the dot product, we will get higher value where the plus sign is avalable else lower value at feature map.
+
+## Important point related to kernal
+ - 1x1 is very small kernal it can not detect anything
+ - 2x2 is do not follow symetric
+ - 3x3 follow synmetic that is why we are taking smalles kernal as 3x3.
+
+## if we have large size kernal then what is the issue?
+ - There is chances that sun and bird both can capture by single neuron.
+ - risk of including other object in that location.
+
+## if large kernal is issue then small kernal may also have problem?
+ - for example, one 3x3 kernal can not be detect whole sun.
+ - using the 3x3 kernal may not capture our sun properly.
+ - there is not problem because one kernal create one feature map which is pass by one neuron.
+ - one neuron can learn left part of sun, one neuron learn right part of sun, one neuron learn bottom part of neuron. so there is no issue. but if we take larger kernal size then there is an issue that both sun and tree capture by single neuron, and that neuron get confuse which output to product sun or tree.
+ - so small size kernal is not has big risk.
+ - small size kernal is less infomation but there is not risk of capturing nebouring object.
+
+## where we are using the large size kernal. 
+ - yet to answer
+
+## why kernal has to be symetric not square
+ - yet to answer
+
+## What is the dimension of feature map
+ - if you have 100x100 pixel image(RGB) and has 100 of 3x3 kernal, the output of feature map. we will get with strive=1 is find out using the formula
+ - H' = [(H-f)s]+1
+ - W' = [(W-f)s]+1
+ - depth = no of filter we have applied
+## now, how many parameter the above configuration has.
+ - 28 because, for each 3x3 karnal we have 9 weight and we have 100 of them, which is (3x3x3)+1(bias)
+ - Number of learnable parameter is independent of size of image.
+ - it is depended upon the size of kernal
+
+ ![Alt text](https://qph.cf2.quoracdn.net/main-qimg-b662a8fc3be57f76c708c171fcf29960)
+
+
+
+
+
+

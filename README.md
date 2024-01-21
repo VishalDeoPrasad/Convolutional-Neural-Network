@@ -111,6 +111,9 @@
   - ![Alt text](image-2.png)
   - after this i would have clean feature map.
 
+## Global Average Pooling
+ - give the flatten vector
+
 ## Convolutional Neural Networks
  - Apply Convalution to extract feature and max pooling to clean up feature, repect twice thrise. max pooling get raid of unnessary neuron.
  - will do the **global max** at the end, which will give me most important feature of the each feature map.
@@ -176,10 +179,10 @@ Model: "model_cnn"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- conv2d (Conv2D)             (None, 128, 128, 16)      448       
+ conv2d (Conv2D)               (None, 128, 128, 16)      448       
                                                                  
- max_pooling2d (MaxPooling2D  (None, 64, 64, 16)       0         
- )                                                               
+ max_pooling2d (MaxPooling2D)  (None, 64, 64, 16)       0          
+                                                               
                                                                  
  flatten (Flatten)           (None, 65536)             0         
                                                                  
@@ -192,7 +195,16 @@ Total params: 16,780,490
 Trainable params: 16,780,490
 Non-trainable params: 0
 _________________________________________________________________
+ - H' = [(H-f)s]+1
+ - W' = [(W-f)s]+1
+ - depth = no of filter we have applied
 ```
+
+## Overfitting(Data Argmentation)
+ - to remove the over fitting we are using Data Argmentation
+ - left, right, up size down etc rolated, zoom image, scaled down image also a cat, crop image of a cat is cat.
+ - to create our model much robust, because it see more variation of the training data.
+ - to show the variation of image.
 
 
 

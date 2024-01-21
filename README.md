@@ -24,6 +24,8 @@
  - we can not combine everything and pass it to neural network.
  - In mnist Handwritten dataset we can apply ANN because everything is black except the digit.
 
+## convaluation process
+ - it is a feature extraction process, 
 ## Concept of keranl
  - we want a machanism where i can extract the features at local level, that is where a concept of windows or kernal comes in.
  - A keranl is basically a metrix of certain weight much lower dimension then the image, let image maybe 100x100 and kernal will be 3x3.
@@ -98,6 +100,23 @@
  - it is depended upon the size of kernal
 
  ![Alt text](https://qph.cf2.quoracdn.net/main-qimg-b662a8fc3be57f76c708c171fcf29960)
+
+ ## Max Pool
+  - max pool is also a kind of convalution operation only with some filter size, this operation took max out of it. 
+  - this is a clean up process, we are saying just give me max out of it.
+  - when we train a kernal which can learn only tree(suppose) object from an image, there is high chances that that kernal takes some part of sun(suppose) so for that we need some clean up process, this clean up process is called max pooling.
+  - suppose we have 28x28x3 image and we apply dot product with 3x3x100 kernal it will generate 26x26x100 feature map.
+  - we already know that dring colvalution it take the some part of neabouring object so this max pooling remove that part and takes the max out of it.
+  - ![Alt text](image-2.png)
+  - after this i would have clean feature map.
+
+## Convolutional Neural Networks
+ - Apply Convalution to extract feature and max pooling to clean up feature, repect twice thrise. max pooling get raid of unnessary neuron.
+ - will do the **global max** at the end, which will give me most important feature of the each feature map.
+ - using the global max, each map talk about the most import part of the tree in the feature map.
+ - then we pass it to dense layer to predict the tree, that is what convoltution articture looks like.
+![Alt text](image-3.png)
+
 
 
 

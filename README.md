@@ -52,3 +52,5 @@
 - neural network is basically going to learn the weights of the kernels.
 
 **Dot product happen 3 channel of color with kernal**
+
+## this is pull test

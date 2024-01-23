@@ -179,16 +179,15 @@ Model: "model_cnn"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- conv2d (Conv2D)               (None, 128, 128, 16)      448       
+ conv2d (Conv2D)               (None, 128, 128, 16)     448       
                                                                  
- max_pooling2d (MaxPooling2D)  (None, 64, 64, 16)       0          
-                                                               
+ max_pooling2d (MaxPooling2D)  (None, 64, 64, 16)        0          
+                                                                                                        
+ flatten (Flatten)             (None, 65536)             0         
                                                                  
- flatten (Flatten)           (None, 65536)             0         
+ dense (Dense)                 (None, 256)              16777472  
                                                                  
- dense (Dense)               (None, 256)               16777472  
-                                                                 
- dense_1 (Dense)             (None, 10)                2570      
+ dense_1 (Dense)               (None, 10)               2570      
                                                                  
 =================================================================
 Total params: 16,780,490
@@ -200,11 +199,98 @@ _________________________________________________________________
  - depth = no of filter we have applied
 ```
 
-## Overfitting(Data Argmentation)
- - to remove the over fitting we are using Data Argmentation
+## Overfitting(Data Augmentation)
+ - to remove the overfitting we are using Data Argmentation
  - left, right, up size down etc rolated, zoom image, scaled down image also a cat, crop image of a cat is cat.
  - to create our model much robust, because it see more variation of the training data.
  - to show the variation of image.
+
+## Image Augmentation
+  + what is Augmentation? 
+      - using this we are making our model more robust
+      - Color, Increse the sharpness
+      - reduce the light
+      - rotate the image
+      - zoom the image
+      - shift the image here and there
+      - crop the image
+    these are real life image. we need some veriation of the image to train, we can not say we need only those image where line is at the center of the image.
+  + camera angle might be different there may be differnt angle, there might be zoom-In or Out image.
+  + we have to make a model in such a way that if i have a cat classifer if it sleeping my model should predict it is a cat, if it is running my model should predict it is cat and like so on. if my cat oocuping 90% of image then also my model should predict it is a cat.
+  + so during the training process, can i rotate the image, can i zoom in the image, can i do some random transformation to the image while sending to the training pipeline. this is what called data augmentation.
+  + *def*- during the training process the model not only learning the images but also learing the variation of the image. for exmple variation of zoom in cat, variation of rotation cat etc.
+  + Augmentation is a technique to artificially increase the amount of data by generating new data points from existing data.
+
+### How can we increase the data from existing data?
+  > By making Minor changes such as flips, translations,brigntness,coloring, rotations etc.
+
+### How does it help with training?
+  > This leads to greater diversity of data samples being seen by the network hence decreasing the likelihood of overfitting the model on the training dataset.
+  >Also it helps in reducing some of the spurious characteristics of the dataset.
+
+### What different sort of Augmentation strategies we can apply?
+  + Some most common data augmentations are:
+      padding
+      random rotating
+      re-scaling,
+      vertical and horizontal flipping
+      translation ( image is moved along X, Y direction)
+      cropping
+      zooming
+      darkening & brightening/color modification
+      grayscaling
+      changing contrast
+      adding noise
+      random erasing
+      sharpness: image + lambda(image-cv2.gaussianBlur(image))
+      contrast: low pixel < 20 to 0, higher then > 200 to 255
+      brightness: (all pixel + 10)
+
+### data generator:
+  + it is kind of pipeline where, which is directly connected to the image folder, and from there we can acturally send images to the model.
+  + it is like a tap, when you open the tap it will give image if you close the tap is will stop giving you images.
+  + suppose it have 40000 image, after sending this 40000 images you can futher dement the image from this pipeline.
+  + what is the advantage: if you have 40000 good HD qualtiy image in you hardisk, and you wanted to use to train the model, if you read the entire 40000 hd image, you RAM got out of memory.
+  + to prevident this, we use data generator, what it do it open the tap and take 512 image train the model flush the image, again it take next 512 image train the model flush down the image, and the things go on. that is the benifit of data generator. by the way 512 image is batch size.
+  + Augementation can be a part of data generator or the model pipeline, depend upon the architecture of the model, previouly it was a part of data generator now, it is the part of model pipeline.
+  + keras has also argumentation layer in the sequential model
+  + this argumentation apply some random(crop, resize, brightness etc) thing to the image and pass it the model to train the model.
+  + you will never run out of image, because of whenever you need image, you just turn on the tap and it will give the some image and you can argument the image and you have enoght image to train your model.
+  + theoryticaly you can not run out of images, because of image argumentation layer.
+
+### why can't you do argumentation in tabular data?
+  + if we do some row change then whole regress will change or the class/label change. that is why we can not argument the tabular data.
+  + oversampling is duplicate data but this is argumented data.
+  + but in the case of image, if we zoom in, crop, increae or decrese the image, it will alway repersent the cat.
+
+### Causing in using image augumenation.
+  + we can not drastically use of augumenation, if you do to much zooming it may put the object(cat) out of image.
+
+## How do we apply augmentation in tensorflow / keras?
+  There are many ways to apply augmentation in Tensorflow/Keras, few of them are discussed here:
+
+  1. using the Keras Preprocessing Layers, just like preprocessing functions like resizing and rescaling, keras also provides data augmentation layers like tf.keras.layers.RandomFlip, tf.keras.layers.RandomRotation, etc. These can be used in a similar way as we used the preprocessing functions.
+  1. using tf.image methods like tf.image.stateless_random_flip_up_down, tf.image.stateless_random_brightness
+  1. using Keras ImageDataGenerator API - It provides quick, out-of-the-box suite of augmentation techniques like standardization, rotation, shifts, flips, brightness change, and many more.
+
+## what is padding?
+  + padding help to start the corner left of the image, and does help in not lossing the information.
+  + using padding we can retain the size of feature map as original image.
+  + padding='same','valid' in this case Height and weight will be same as orginal image.
+  + with padding (padding='same')
+    - H' = [ (H+2P-f)/s]+1
+  + without padding (padding='valid')
+    - H' = [ (H-f)/s]+1
+
+### when to use padding?
+  + do some research,
+  + advantege of using it.
+  + when to use or not to use.
+
+## Backpropagation in CNN
+  + adjest the weight and biases
+  + backpropagate from right to left
+
 
 
 

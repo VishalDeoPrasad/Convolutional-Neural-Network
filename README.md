@@ -382,6 +382,113 @@ vector2 = [4, 5, 6]
 similarity = cosine_similarity(vector1, vector2)
 print("Cosine Similarity:", similarity)
 
+```
+### Image Similarity using Frobenius Norm
+- differnce between element wise euclden distance.
+In image processing and computer vision tasks, measuring the similarity or difference between images is a fundamental problem. One way to quantify the difference between two images is by using the Frobenius norm.
+
+#### Frobenius Norm
+
+The Frobenius norm of a matrix is a generalization of the Euclidean norm for vectors. For an \(m \times n\) matrix \(A\), the Frobenius norm is defined as:
+
+\[
+\|A\|_F = \sqrt{\sum_{i=1}^{m} \sum_{j=1}^{n} |a_{ij}|^2}
+\]
+
+Where \(a_{ij}\) are the elements of matrix \(A\).
+
+#### Image Similarity using Frobenius Norm
+
+Given two images represented as matrices \(A\) and \(B\), their Frobenius norm difference can be calculated as:
+
+\[
+\text{Frobenius\_norm\_difference} = \| A - B \|_F
+\]
+
+This measure allows us to quantify the difference between two images based on their pixel values. Lower Frobenius norm differences indicate greater simi
+
+
+### Process of Image similarity
+ - image1(cat) --> (conv, max pooling)xN --> feature map --> Flatten --> Vector 1
+ - image2(cat) --> (conv, max pooling)xN --> feature map --> Flatten --> Vector 2
+    - now find cosine similarity between (vector 1 and vector 2) if the value is high then both image is same else different image.
+
+  - __Q. Why can't we directly find the cosine similarity between 2 images, since images are already in vector format, why to go to the conv, max pooling layer.__
+  - ans: Following ans can be consider
+    1. After Convoluation dimension will be reduced
+    1. Frobenius Norm - differnce between element wise eucleaden distance; we will not get any kind of similarity in this case. becz in birds pixel we are find frobenious norm with sun pixel, with sun pixel we are find frobenious norm with car pixel etc. not frobenius norm will not work here. 
+
+#### How image backgroud remover works?
+  - take the image, find the object inside the image, extract the object make that object as forground and make everything else as backgroud.
+
+#### Autoencoder used in Segmentation
+
+### Embedding
+ - __def__ = Embedding are 1 Dimensional __learnt representation__ of a data(video, text, image, audio), which captures the most relevant information (based on the learning it has done) from the data and stores, so that we can use those embeddings later to perform certain query actions.
+ - For example; youtube recommandation is store in the form of embeddings
+ - in Text, it is word embedding, LLM embedding,
+ - in all chatbot result is based on concept of embedding matching, the query embedding and store embedding have to match.
+ - Query Text --> converted into 1-Dimentional vector
+ - Document Text --> converted into 1-Dimenstional vector
+ - Chatbot problem is nothing but given the text find the most familiar document.
+ 
+ Q. what can you do with one dimentational vector?
+ 1. you can pass it to neural network to do some kind of prediction
+ 1. do clustring on them
+ 1. you can find the similarity with them
+ 1. you can cluster video, cluster audio
+ 1. you can found similar audio etc
+
+ Q. What are the steps to find the embedding?
+ 1. You will take all the images
+ 1. pass them through the CNN, till the 1 dimensional vector,
+ 1. we do (conv, max pool)xn till my image got flat in 1-Dimentational vector, and stop before the dense layer not go till prediction, just one forward propation till our image got flatten
+
+
+ Q. How to do image similarity?
+  - suppose we have 1 image i have find the similar image amoung my given 5 image.
+    - 1. first pass all 5 image to CNN(conv + max pool) and stop when we get the flatten image(1-Dimentational vector) do this for all the 5 image and store all the 1-d vector to an array this process is called embedding.
+    - next take our target image do this process with same CNN Architecture and get the flatten array, 
+    - now do the cosine similiary with all the 5 image(1-d array) and return which has highest value of similarity vector.
+
+  * if we stop till flatten vector it is good representation of an image.
+
+## We have 2 main Architecture for image embedding.
+  ### 1. Inceptionnet:
+    - multiple Conv+maxpooling in one layer. output of each conv+maxpooling is same as input.
+    - multiple inception block
+    ![alt text](image-10.png)
+    ![alt text](image-8.png)
+    - use of 1x1 convolution; generate feature along the depth and make one neuron.
+    ![alt text](image-7.png)
+    ```python
+      def inception_module(layer_in, f1, f2_in, f2_out, f3_in, f3_out, f4_out):
+    # 1x1 conv
+    conv1 = Conv2D(f1, (1,1), padding='same', activation='relu')(layer_in)
+    # 3x3 conv
+    conv3 = Conv2D(f2_in, (1,1), padding='same', activation='relu')(layer_in)
+    conv3 = Conv2D(f2_out, (3,3), padding='same', activation='relu')(conv3)
+    # 5x5 conv
+    conv5 = Conv2D(f3_in, (1,1), padding='same', activation='relu')(layer_in)
+    conv5 = Conv2D(f3_out, (5,5), padding='same', activation='relu')(conv5)
+    # 3x3 max pooling
+    pool = MaxPooling2D((3,3), strides=(1,1), padding='same')(layer_in)
+    pool = Conv2D(f4_out, (1,1), padding='same', activation='relu')(pool)
+    # concatenate filters, assumes filters/channels last
+    layer_out = concatenate([conv1, conv3, conv5, pool], axis=-1)
+    return layer_out
+      ```
+    ![alt text](image-9.png)
+  ### 2. Resnet:
+    difference between Alexnet vs VGG
+      + Alexnet ---> bigger filter, lower depth
+      + VGG     ---> lower filter, bigger depth
+      there is usecase of bigger filter or usecase fo bigger depth
+ 
+
+
+
+
 
 
 

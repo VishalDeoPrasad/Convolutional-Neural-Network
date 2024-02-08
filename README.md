@@ -299,7 +299,6 @@ _________________________________________________________________
 
 
 # Introduction to Transfer Learning
-#### Agenda
 1. Transfer learning 
   - ML models are not exchangeable, for example churn of google model can not make sence to Amazon or meta.
   - Example of Transfer learning, suppose i have train my model with 5000 images but my friend has train his model more then 50k image data. so i can call my friend and ask my friend to give me their model for my prediciton. this is good example of transfer learning.
@@ -340,6 +339,48 @@ history = vgg16_model.fit(train_ds, epochs=5, validation_data=val_ds)
 
 ### AlexNet(Standard CNN Architecture)
   - big filter lower depth and VGGNet smaller filter bigger depth.
+
+
+
+
+## Image Similarity: Understand Image Embeddings
+  - Given an image we can pass it to conv max pooling, conv max pooling multiple itmes.
+  - which then i will do gobal averge pooling or i can do flatten to get a 1-dimensional vector
+  - then pass it to dence layer to predict cat, dog or +ve, -ve whatever.
+  - and based on that your backpropagation happen and your weights get updated.
+
+### cosine similarity of two vector
+  - if the cosine similarity of two vector is high then we can say those 2 vector are similar
+  ### Cosine Similarity Formula
+Cosine similarity is a measure of similarity between two non-zero vectors of an inner product space. It measures the cosine of the angle between them. The formula for computing cosine similarity between two vectors \( \mathbf{a} \) and \( \mathbf{b} \) is:
+
+\[
+\text{similarity} = \frac{{\mathbf{a} \cdot \mathbf{b}}}{{\|\mathbf{a}\| \cdot \|\mathbf{b}\|}}
+\]
+
+Where:
+- \( \mathbf{a} \cdot \mathbf{b} \) is the dot product of vectors \( \mathbf{a} \) and \( \mathbf{b} \)
+- \( \|\mathbf{a}\| \) is the Euclidean norm (magnitude) of vector \( \mathbf{a} \)
+- \( \|\mathbf{b}\| \) is the Euclidean norm (magnitude) of vector \( \mathbf{b} \)
+
+In Python, using NumPy, you could compute the cosine similarity of two vectors as follows:
+
+```python
+import numpy as np
+
+def cosine_similarity(a, b):
+    dot_product = np.dot(a, b)
+    norm_a = np.linalg.norm(a)
+    norm_b = np.linalg.norm(b)
+    similarity = dot_product / (norm_a * norm_b)
+    return similarity
+
+# Example usage:
+vector1 = [1, 2, 3]
+vector2 = [4, 5, 6]
+
+similarity = cosine_similarity(vector1, vector2)
+print("Cosine Similarity:", similarity)
 
 
 

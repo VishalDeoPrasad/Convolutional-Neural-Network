@@ -110,6 +110,11 @@
   - we already know that dring colvalution it take the some part of neabouring object so this max pooling remove that part and takes the max out of it.
   - ![Alt text](image-2.png)
   - after this i would have clean feature map.
+  - __Max pool don't have the weight so what it is doing in backpropagation, it convert back from 2x2 matrix to original 4x4 matrix__
+  ![alt text](image-5.png)
+  - for forward propation dimenality reduction backword propagation dimentaionly expension.
+
+  image --> Conv --> Feature map --> max pooling --> reduct feature map --> flatten --> pass it to dence -- > you get y hat --> last find the loss
 
 ## Global Average Pooling
  - give the flatten vector
@@ -290,9 +295,51 @@ _________________________________________________________________
 ## Backpropagation in CNN
   + adjest the weight and biases
   + backpropagate from right to left
+  + unpooling maintain the same dimension
 
 
 # Introduction to Transfer Learning
+#### Agenda
+1. Transfer learning 
+  - ML models are not exchangeable, for example churn of google model can not make sence to Amazon or meta.
+  - Example of Transfer learning, suppose i have train my model with 5000 images but my friend has train his model more then 50k image data. so i can call my friend and ask my friend to give me their model for my prediciton. this is good example of transfer learning.
+  - Transfer learning is duable in image data.
+  - z-score of age of USA population is differnt then the Z-score of age of indian populaution.
+  - another example, in my laptop value of pixel (255,66,54) is as through out all the laptop, there is unifomality in image data.
+  - we can fine tune and train the model of our interest. 
+
+understand the Tranfer learning (with VGG arthicecture) 
+ + In the concept of tranfer learning, you used a pre-train model in which in all the layers the weights and bias are fixed, but on top of that you apply your own dense layer and then you do classification. 
+ ![alt text](image-6.png)
+
+### VGGNet(Standard CNN Architecture)
+  - Very deep Convolutional networks for large-scale image recongnition.
+```python
+pretrained_model = tf.keras.applications.VGG16(weights='imagenet', include_top=False, input_shape=[224,224, 3])
+# "Get the first few blocks of pretrained model and freeze them"
+#1. break this pretrained model into two halves. first half is what you will freeze, 2nd half you will keep as it is
+#2. sequential api (1st half, 2nd half, flatten, dense)
+pretrained_model.trainable=False
+vgg16_model = tf.keras.Sequential([
+    pretrained_model,
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+import functools
+top5_acc = functools.partial(tf.keras.metrics.SparseTopKCategoricalAccuracy())
+
+vgg16_model.compile(
+    optimizer='adam',
+    loss = 'sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+history = vgg16_model.fit(train_ds, epochs=5, validation_data=val_ds)
+```
+
+### AlexNet(Standard CNN Architecture)
+  - big filter lower depth and VGGNet smaller filter bigger depth.
 
 
 

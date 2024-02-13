@@ -478,7 +478,7 @@ This measure allows us to quantify the difference between two images based on th
     layer_out = concatenate([conv1, conv3, conv5, pool], axis=-1)
     return layer_out
       ```
-    ![alt text](image-9.png)
+   ![alt text](image-9.png)
   ### 2. Resnet:
     difference between Alexnet vs VGG
       + Alexnet ---> bigger filter, lower depth

@@ -486,6 +486,9 @@ This measure allows us to quantify the difference between two images based on th
       there is usecase of bigger filter or usecase fo bigger depth
  
 
+## CNN for Medical Diagnosis
+Talk about another architecture that is little more efficient(meaning less number of parameters). and can be deployed on portable device lets says on a smartphone. - __Mobile Net__
+
 
 
 

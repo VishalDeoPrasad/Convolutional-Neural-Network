@@ -489,7 +489,51 @@ This measure allows us to quantify the difference between two images based on th
 ## CNN for Medical Diagnosis
 Talk about another architecture that is little more efficient(meaning less number of parameters). and can be deployed on portable device lets says on a smartphone. - __Mobile Net__
 
+```python
+import tensorflow as tf
+#import all necessary layers
+from tensorflow.keras.layers import Input, DepthwiseConv2D
+from tensorflow.keras.layers import Conv2D, BatchNormalization
+from tensorflow.keras.layers import ReLU, AvgPool2D, Flatten, Dense
+from tensorflow.keras import Model
+```
 
+```python
+# MobileNet block
+def mobilnet_block (x, filters, strides):
+    x = DepthwiseConv2D(kernel_size = 3, strides = strides, padding = 'same')(x)
+    x = BatchNormalization()(x)
+    x = ReLU()(x)
+
+    x = Conv2D(filters = filters, kernel_size = 1, strides = 1)(x)
+    x = BatchNormalization()(x)
+    x = ReLU()(x)
+
+    return x
+```
+
+```python
+#stem of the model
+input = Input(shape = (224, 224, 3))
+x = Conv2D(filters = 32, kernel_size = 3, strides = 2, padding = 'same')(input)
+x = BatchNormalization()(x)
+x = ReLU()(x)
+# main part of the model
+x = mobilnet_block(x, filters = 64, strides = 1)
+x = mobilnet_block(x, filters = 128, strides = 2)
+x = mobilnet_block(x, filters = 128, strides = 1)
+x = mobilnet_block(x, filters = 256, strides = 2)
+x = mobilnet_block(x, filters = 256, strides = 1)
+x = mobilnet_block(x, filters = 512, strides = 2)
+for _ in range (5):
+     x = mobilnet_block(x, filters = 512, strides = 1)
+x = mobilnet_block(x, filters = 1024, strides = 2)
+x = mobilnet_block(x, filters = 1024, strides = 1)
+x = AvgPool2D (pool_size = 7, strides = 1, data_format='channels_first')(x)
+output = Dense (units = 1000, activation = 'softmax')(x)
+model = Model(inputs=input, outputs=output)
+model.summary()
+```
 
 
 

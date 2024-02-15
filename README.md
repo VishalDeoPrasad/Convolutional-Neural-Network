@@ -611,4 +611,23 @@ class, Top left(bx, by), right bottom(bh, bw).
 ![Alt text](image-13.png)
 - it generate the train, test and validate data with label like coco, yelo etc. different archiceture need to differernt label for example YOLO-v3 need coco and YOLO-v5 take yolo json etc.
 
+```
++ Given a image and anotation(class, & bounding box) find a relationship between after training with anotation.
++ in the prediction we have to predict where is my bounding box corrdinate.
++ in this case our class is not just label, it is label and certain cordinates.
++ Bounding box has to be predicted. we need to learn bounding box through image and label.
++ we have to provide the -ve image also. like man holding stick, or empty hand.
+```
+#### How it map the image and bounding box?
+![Alt text](image-14.png)
+```
++ we have image we (convoluate and max pooling)xn because it is good at finding the feature of the image. 
++ and fully connected layer has 5 neurons. 1 neuron is for classification head and 4 neurons is box-Coordinate. 
++ this is only possible if we have one object in an image. & that is what we are solving here right now.
++ we have image, class label & bounding box coordinate, please learn it and predict the bounding box.
+```
+
+### 2. (Model) Implement object detection using Resnet
++ Resnet we use not trainable
+
 

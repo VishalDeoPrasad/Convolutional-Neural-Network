@@ -629,5 +629,19 @@ class, Top left(bx, by), right bottom(bh, bw).
 
 ### 2. (Model) Implement object detection using Resnet
 + Resnet we use not trainable
++ put code here
+
+### 3. Predict and Evaluate
++ write the code and output
+
+Q. How do we measure wheather the ground truth and the prediction are similar?
+```
+```
+
+Q. How do we now extend this model to multi-object in a image.
+```
+
+```
+
 
 

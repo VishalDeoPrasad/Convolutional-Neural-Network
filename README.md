@@ -535,7 +535,80 @@ model = Model(inputs=input, outputs=output)
 model.summary()
 ```
 
-### Object Localisation and Detection.
+# Object Localisation and Detection
+``` 
++ till now we have seen the simple things, we have an object and we need to classify the class of the image or we need to find the image similarity amount the images. in this topic we are going to se some adavance topic like how to locate and detect any image.
++ example: Detection and track the gun man in public place, to prevent some denger.
+```
 
+## __Problem Statement__:
+<img src="image-11.png" alt="Alt text" width="300" style="float: left; margin-right: 10px;">
+<img src="image-11.png" alt="Alt text" width="300" style="float: left;">
+
+```
+With increasing number of mass shooting incidents at schools, Malls and other public places across US, there is a need of always on and effective Monitoring systems that can identify potential dangers and alert beforehand.
+
+Law enforcement agencies that guard public places currently rely on technology like walk-through or handheld magnetometers, which detect changes in local magnetic fields.
+
+You are working as a Machine Learning Engineer at Omnilert AI.
+
+Your team is planning to create an AI-powered visual gun detection System that can identify threats and immediately trigger multi-channel alerts and automated pre-defined safety protocols.
+
+You are given the responsibility of developing ML powered system that can be used to connet with existing video surveillance cameras to reliably and rapidly recognize firearms.
+```
+
+<img src="image-12.png" alt="Alt text" width="700">
+
+```
+With the increasing prevalence of antibiotic-resistant bacteria and the need for rapid diagnosis and treatment of infectious diseases, there is a demand for advanced diagnostic tools that can quickly identify pathogens and guide appropriate treatment.
+
+Medical professionals currently rely on traditional methods such as culturing bacteria from patient samples, which can be time-consuming and delay treatment initiation.
+
+As a Bioinformatics Research Scientist at GenoMedics Inc., your team is developing an AI-powered pathogen detection system that can rapidly analyze genomic data from patient samples to identify bacterial and viral pathogens with high accuracy.
+
+You are tasked with creating machine learning algorithms that can efficiently process genomic sequences and classify them into known pathogens or potential novel threats, enabling healthcare providers to make informed treatment decisions in real-time.
+
+The system will integrate seamlessly with existing laboratory equipment and electronic medical records, providing clinicians with actionable insights within minutes of sample collection.
+
+```
+
+### Object detection & localisations
++ In this process, we are not only locating multiple object but also find the location of the object in real-time and put bounding box on multiple object.
++ for example: in self driving car, we are not only trying to detect only road but also we are trying to detect the trafic light, we are try to detect the pradistrian, other car, tree etc, we are trying to detect and identify multiple object in my vision and also the location of the object.
++ we can not solve this using previous method, because in that method we are focusing in the single object, like car, bike, tree, etc.
++ in previous method we can only say that if car(let take) present in my image or not. 
++ our game is over, the moment we flatten our image, using global max pooling. we lost our information and we focus only on the single object.
++ output dimension is not fixed. it could be anything, location is lost.
+
+```
+Model will cover
+1. RCNN
+2. Fast RCNN + Faster RCNN
+3. YELO-v3, v5
+```
+
+```
+Today we'll see:
+1. How training data look like. and get preparied
+2. Model(RCNN)
+3. Inferences
+```
+
+```
+Whenever we are trying to solve object detection and localization problem, first thing we need to do is anotations.
+Given an image, we have a task to solve car, person and tree.
+These 3 are my object of interest that a business had told me. obiously we are saying object detection and localization of multiple object, this doesn't means we have to consider all object in the universe. we still have to define these are my object of interest.
+```
+### 1. (Anotations) Preparation of Training Data
+- let's say we have collected 1000 images. and in each on the image we have search the object.
+- Given the image we have to detect the image and draw a bounding box around the object.
+- for that we need __anotation tool__, we have to draw a bounding box.
+class, Top left(bx, by), right bottom(bh, bw).
+- Best Anotation Tool is __RoboFlow__.
+- One Bounding box can not contain multiple object, 1 bounding box only contain single object. boundary must be well define.
+- This is true that during anotation, there are
+ chances prople do mistake that we need to handle.
+![Alt text](image-13.png)
+- it generate the train, test and validate data with label like coco, yelo etc. different archiceture need to differernt label for example YOLO-v3 need coco and YOLO-v5 take yolo json etc.
 
 

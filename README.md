@@ -536,6 +536,7 @@ model.summary()
 ```
 
 # Object Localisation and Detection
+LINK 1: https://colab.research.google.com/drive/1MTvGvZPDhYaHhf3fkCyfgyFpaHqqAQO1#scrollTo=5z6gO9LFMfsh
 ``` 
 + till now we have seen the simple things, we have an object and we need to classify the class of the image or we need to find the image similarity amount the images. in this topic we are going to se some adavance topic like how to locate and detect any image.
 + example: Detection and track the gun man in public place, to prevent some denger.
@@ -543,7 +544,7 @@ model.summary()
 
 ## __Problem Statement__:
 <img src="image-11.png" alt="Alt text" width="300" style="float: left; margin-right: 10px;">
-<img src="image-11.png" alt="Alt text" width="300" style="float: left;">
+<img src="image-11.png" alt="Alt text" width="300">
 
 ```
 With increasing number of mass shooting incidents at schools, Malls and other public places across US, there is a need of always on and effective Monitoring systems that can identify potential dangers and alert beforehand.
@@ -555,6 +556,7 @@ You are working as a Machine Learning Engineer at Omnilert AI.
 Your team is planning to create an AI-powered visual gun detection System that can identify threats and immediately trigger multi-channel alerts and automated pre-defined safety protocols.
 
 You are given the responsibility of developing ML powered system that can be used to connet with existing video surveillance cameras to reliably and rapidly recognize firearms.
+
 ```
 
 <img src="image-12.png" alt="Alt text" width="700">
@@ -621,7 +623,7 @@ class, Top left(bx, by), right bottom(bh, bw).
 #### How it map the image and bounding box?
 ![Alt text](image-14.png)
 ```
-+ we have image we (convoluate and max pooling)xn because it is good at finding the feature of the image. 
++ we have image we (convoluate and max pooling)xN because it is good at finding the feature of the image. 
 + and fully connected layer has 5 neurons. 1 neuron is for classification head and 4 neurons is box-Coordinate. 
 + this is only possible if we have one object in an image. & that is what we are solving here right now.
 + we have image, class label & bounding box coordinate, please learn it and predict the bounding box.
@@ -632,16 +634,55 @@ class, Top left(bx, by), right bottom(bh, bw).
 + put code here
 
 ### 3. Predict and Evaluate
-+ write the code and output
+let say this image
+![Alt text](image-15.png)
+- in image1 let's say green is our actural bounding box and red is predicted bounding box, now the question is that how well i did predict.
+- Here, __IOU(intersection over union)__ is define: what is esscial mean is that if there is box number 1 and there is box number 2, what we define in interection over union is the common area in the both of the boxes.
+
+<img src="image-16.png" alt="Alt text" width="300" style="float: left; margin-right: 10px;">
+<img src="image-19.png" alt="Alt text" width="325" style="float: ; margin-right: 10px;" >
+
+![Alt text](image-20.png)
+
+<div style="display: flex;">
+    <img src="image-23.png" alt="Alt text" width="330" style="margin-right: 10px;">
+    <img src="image-22.png" alt="Alt text" width="300">
+</div>
+
+
+<img src="image-21.png" alt="Alt text" width="400">
 
 Q. How do we measure wheather the ground truth and the prediction are similar?
 ```
+1. IOU(intersection over union)
 ```
 
 Q. How do we now extend this model to multi-object in a image.
+![Alt text](image-25.png)
 ```
+1. Bruteforce approch: 
+  Step 1: we have one image which contain multiple image.
+  Step 2: we take random crops from that particular image(small size crop small size not very big size).
+  Step 3: We resize the random crop to same size.
+  Step 4: and i Pass it through two different convoluation and predictor, One which is trained on the watch(model 1) and another which is trained on the pistol(model 2). trying to find out the class and the 4 bounding box. whoever got the heightest probabiliy choose that.
+  Step 5: now, for each of the crop we have either watch or postol and there bounding box, and then i know the crop position of all bouding box crop. put all the bounding box on the image.
+  Step 6: Do some clean up and your pistol and watch will detection.
+clean up process: NON MAX SUPRESSION
+```
+Disadvantage of Bruteforce Approch:
+0. Independent Detector: This is not efficient, because for differnt object we have to create different model and train it.
+1. We have to create differnt convoluton for differnt object.
+2. multiple crops: we have lot of crop to predict. 
+3. random crop: crops must have some logic it should not be random.
 
+### RCNN and FastRCNN Process
 ```
+RCNN and FastRCNN works on this principal, the only difference how RCNN generate this crop and fastRCNN generate this crop.
+```
+![Alt text](download.gif)
+
+
+
 
 
 

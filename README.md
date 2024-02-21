@@ -681,6 +681,24 @@ RCNN and FastRCNN works on this principal, the only difference how RCNN generate
 ```
 ![Alt text](download.gif)
 
+> Remember the Objective, We have multiple object in multiple image, we want to predict the object in an image and also locate the object in an image.
+
+### RCNN
+- take 40-50 second for 1 image, not benfit in real time project
+- RCNN says that given an image first you perform __selective search Alogorithm and generate region proposal__
+- clustring of similar pixel
+
+### FastRCNN 
+- advance and take less time to process
+
+### FasterRCNN
+- More advance then Fast, takes differnt approch then it family
+
+### YELO
+- much faster then FasterRCNN
+- You only live onecs
+- version v3, v4, v5, v8 etc
+
 
 
 

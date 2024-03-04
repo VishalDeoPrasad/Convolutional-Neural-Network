@@ -486,7 +486,7 @@ This measure allows us to quantify the difference between two images based on th
       there is usecase of bigger filter or usecase fo bigger depth
  
 
-## CNN for Medical Diagnosis
+# CNN for Medical Diagnosis
 Talk about another architecture that is little more efficient(meaning less number of parameters). and can be deployed on portable device lets says on a smartphone. - __Mobile Net__
 
 ```python
@@ -574,7 +574,7 @@ The system will integrate seamlessly with existing laboratory equipment and elec
 
 ```
 
-### Object detection & localisations
+# Object detection & localisations
 + In this process, we are not only locating multiple object but also find the location of the object in real-time and put bounding box on multiple object.
 + for example: in self driving car, we are not only trying to detect only road but also we are trying to detect the trafic light, we are try to detect the pradistrian, other car, tree etc, we are trying to detect and identify multiple object in my vision and also the location of the object.
 + we can not solve this using previous method, because in that method we are focusing in the single object, like car, bike, tree, etc.
@@ -659,14 +659,14 @@ Q. How do we measure wheather the ground truth and the prediction are similar?
 
 Q. How do we now extend this model to multi-object in a image.
 ![Alt text](image-25.png)
+1. Bruteforce approch:
 ```
-1. Bruteforce approch: 
-  Step 1: we have one image which contain multiple image.
-  Step 2: we take random crops from that particular image(small size crop small size not very big size).
-  Step 3: We resize the random crop to same size.
-  Step 4: and i Pass it through two different convoluation and predictor, One which is trained on the watch(model 1) and another which is trained on the pistol(model 2). trying to find out the class and the 4 bounding box. whoever got the heightest probabiliy choose that.
-  Step 5: now, for each of the crop we have either watch or postol and there bounding box, and then i know the crop position of all bouding box crop. put all the bounding box on the image.
-  Step 6: Do some clean up and your pistol and watch will detection.
+Step 1: we have one image which contain multiple image.
+Step 2: we take random crops from that particular image(small size crop small size not very big size).
+Step 3: We resize the random crop to same size.
+Step 4: and i Pass it through two different convoluation and predictor, One which is trained on the watch(model 1) and another which is trained on the pistol(model 2). trying to find out the class and the 4 bounding box. whoever got the heightest probabiliy choose that.
+Step 5: now, for each of the crop we have either watch or postol and there bounding box, and then i know the crop position of all bouding box crop. put all the bounding box on the image.
+Step 6: Do some clean up and your pistol and watch will detection.
 clean up process: NON MAX SUPRESSION
 ```
 Disadvantage of Bruteforce Approch:
@@ -689,17 +689,46 @@ RCNN and FastRCNN works on this principal, the only difference how RCNN generate
 - clustring of similar pixel
 
 ### FastRCNN 
-- advance and take less time to process
+- `advance and take less time to process`
+- `in fast RCNN region proposal is comming from selective search algorithm.`
+![alt text](image-28.png)
 
 ### FasterRCNN
-- More advance then Fast, takes differnt approch then it family
+- `More advance then Fast, takes differnt approch then it family`
+![alt text](image-26.png)
+![alt text](image-27.png)
 
-### YELO
+### difference between RCNN vs FastRCNN vs FasterRCNN
+![alt text](image-29.png)
+
+### YELO(You Only Looks Once )
 - much faster then FasterRCNN
 - You only live onecs
 - version v3, v4, v5, v8 etc
 
+#### YELO loss function
+if class is available
+![alt text](image-30.png)
 
+if class is not avaiable
+![alt text](image-31.png)
+
+#### Problem with selective search Alogorithm
+- There is high chances our selective search algorithm capture only half part of the object and rest half of the object take care by another search algorithm.
+* `Clean Up process`: so we have to do some kind of clean up process. 
+* car - for each class get me the box with the highest car probability keep it and all box which have a IOU > 0.7 with the above have delete them.
+* tree - heighest probability all tree IOU > 0.7
+![alt text](image-32.png)
+
+`note: For each class, pick up the highest probability box fot that class remove the boxes which also predict the same class if they have IOU > 07.` <br>
+`And repeat the process do it until you all predicted classes is finish and do it for next class.`
+
+Q. Suppose I have tree-1 and tree-2, both are far away from each other, will IOU of t1 w.r.t t2 be high or low? <br>
+`A. Ofcouse low`
+
+
+# Object Segmentation
+Given an image i wanted to detect at pixel level what class it belongs to?
 
 
 

@@ -113,7 +113,26 @@ So, the output feature map size will be \(98 \times 98\) for each kernel. Since 
 Stride in convolutional neural networks (CNNs) refers to the number of pixels by which the filter (kernel) is moved across the input image. A stride of 1 means the filter moves one pixel at a time, while a stride of 2 means it moves two pixels at a time, and so on. Changing the stride affects the size of the output feature map. A larger stride reduces the size of the output feature map, while a smaller stride preserves more spatial information but increases computational cost.
 
 ## now, how many parameter the above configuration has.
- - 28 because, for each 3x3 karnal we have 9 weight and we have 100 of them, which is (3x3x3)+1(bias)
+### Calculation of Parameters in Convolutional Layer
+
+## Introduction
+
+In convolutional neural networks (CNNs), the number of parameters in a convolutional layer is crucial for determining the model's size and complexity. This README provides a calculation of the parameters for a given configuration.
+
+## Calculation
+
+For each 3x3 kernel:
+- Number of parameters = (3 input channels) * (3x3 kernel size) + 1 (bias term)
+
+So, for each kernel:
+\[ \text{Number of parameters per kernel} = (3 \times 3 \times 3) + 1 = 28 \]
+
+Then, for 100 kernels:
+\[ \text{Total parameters} = \text{Number of parameters per kernel} \times \text{Number of kernels} = 28 \times 100 = 2800 \]
+
+Therefore, the given configuration has a total of 2800 parameters.
+
+This information is essential for understanding the computational complexity and memory requirements of the convolutional layer in a CNN.
  - Number of learnable parameter is independent of size of image.
  - it is depended upon the size of kernal
 

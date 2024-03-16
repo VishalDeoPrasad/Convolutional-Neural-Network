@@ -117,7 +117,7 @@ Stride in convolutional neural networks (CNNs) refers to the number of pixels by
 
 ## Introduction
 
-In convolutional neural networks (CNNs), the number of parameters in a convolutional layer is crucial for determining the model's size and complexity. This README provides a calculation of the parameters for a given configuration.
+In convolutional neural networks (CNNs), the number of parameters in a convolutional layer is crucial for determining the model's size and complexity. calculation of the total parameters for a above configuration.
 
 ## Calculation
 

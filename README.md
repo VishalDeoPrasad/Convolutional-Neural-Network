@@ -116,10 +116,23 @@ Stride in convolutional neural networks (CNNs) refers to the number of pixels by
 ### Calculation of Parameters in Convolutional Layer
 
 ## Introduction
-
 In convolutional neural networks (CNNs), the number of parameters in a convolutional layer is crucial for determining the model's size and complexity. calculation of the total parameters for a above configuration.
 
 ## Calculation
+```
+For each 3x3 kernel:
+- Number of parameters = (3 input channels) * (3x3 kernel size) + 1 (bias term)
+
+So, for each kernel:
+Number of parameters per kernel = (3 * 3 * 3) + 1 = 28
+
+Then, for 100 kernels:
+Total parameters = Number of parameters per kernel * Number of kernels
+                  = 28 * 100
+                  = 2800
+
+Therefore, the given configuration has a total of 2800 parameters.
+```
 
 For each 3x3 kernel:
 - Number of parameters = (3 input channels) * (3x3 kernel size) + 1 (bias term)

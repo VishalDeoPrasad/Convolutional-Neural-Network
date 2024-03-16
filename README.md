@@ -105,13 +105,7 @@ Given:
 
 Using the formula:
 
-\[ \text{Output Size} = \frac{{\text{Input Size} - \text{Kernel Size} + 2 \times \text{Padding}}}{{\text{Stride}}} + 1 \]
-
-For the width:
-\[ W_{out} = \frac{{W_{in} - K + 2P}}{S} + 1 = \frac{{100 - 3 + 2(0)}}{1} + 1 = \frac{{97}}{1} + 1 = 98 \]
-
-For the height:
-\[ H_{out} = \frac{{H_{in} - K + 2P}}{S} + 1 = \frac{{100 - 3 + 2(0)}}{1} + 1 = \frac{{97}}{1} + 1 = 98 \]
+![alt text](image-33.png)
 
 So, the output feature map size will be \(98 \times 98\) for each kernel. Since there are 100 kernels, you'll end up with 100 feature maps of size \(98 \times 98\).
 

@@ -133,18 +133,6 @@ Total parameters = Number of parameters per kernel * Number of kernels
 
 Therefore, the given configuration has a total of 2800 parameters.
 ```
-
-For each 3x3 kernel:
-- Number of parameters = (3 input channels) * (3x3 kernel size) + 1 (bias term)
-
-So, for each kernel:
-\[ \text{Number of parameters per kernel} = (3 \times 3 \times 3) + 1 = 28 \]
-
-Then, for 100 kernels:
-\[ \text{Total parameters} = \text{Number of parameters per kernel} \times \text{Number of kernels} = 28 \times 100 = 2800 \]
-
-Therefore, the given configuration has a total of 2800 parameters.
-
 This information is essential for understanding the computational complexity and memory requirements of the convolutional layer in a CNN.
  - Number of learnable parameter is independent of size of image.
  - it is depended upon the size of kernal

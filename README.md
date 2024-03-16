@@ -94,6 +94,30 @@
  - H' = [(H-f)s]+1
  - W' = [(W-f)s]+1
  - depth = no of filter we have applied
+
+
+Sure, let's apply the formula to find the size of the feature map:
+
+Given:
+- Input Size (W_in) = 100 (width), 100 (height)
+- Kernel Size (K) = 3 (width), 3 (height)
+- Stride (S) = 1
+
+Using the formula:
+
+\[ \text{Output Size} = \frac{{\text{Input Size} - \text{Kernel Size} + 2 \times \text{Padding}}}{{\text{Stride}}} + 1 \]
+
+For the width:
+\[ W_{out} = \frac{{W_{in} - K + 2P}}{S} + 1 = \frac{{100 - 3 + 2(0)}}{1} + 1 = \frac{{97}}{1} + 1 = 98 \]
+
+For the height:
+\[ H_{out} = \frac{{H_{in} - K + 2P}}{S} + 1 = \frac{{100 - 3 + 2(0)}}{1} + 1 = \frac{{97}}{1} + 1 = 98 \]
+
+So, the output feature map size will be \(98 \times 98\) for each kernel. Since there are 100 kernels, you'll end up with 100 feature maps of size \(98 \times 98\).
+
+## stride
+Stride in convolutional neural networks (CNNs) refers to the number of pixels by which the filter (kernel) is moved across the input image. A stride of 1 means the filter moves one pixel at a time, while a stride of 2 means it moves two pixels at a time, and so on. Changing the stride affects the size of the output feature map. A larger stride reduces the size of the output feature map, while a smaller stride preserves more spatial information but increases computational cost.
+
 ## now, how many parameter the above configuration has.
  - 28 because, for each 3x3 karnal we have 9 weight and we have 100 of them, which is (3x3x3)+1(bias)
  - Number of learnable parameter is independent of size of image.

@@ -617,7 +617,8 @@ This measure allows us to quantify the difference between two images based on th
 
   * if we stop till flatten vector it is good representation of an image.
 
-## We have 2 main Architecture for image embedding.
+## Architecture for image embedding.
+There are several architectures commonly used for image embedding, with Convolutional Neural Networks (CNNs) being the most popular. Architectures like AlexNet, VGG, ResNet, and Inception are frequently used for tasks like image classification, object detection, and image embedding. These networks typically consist of convolutional layers followed by pooling layers, often with additional components like normalization layers, skip connections, and fully connected layers. Variants of these architectures are also used for specific tasks, such as Siamese networks for image similarity tasks and autoencoders for unsupervised learning of image representations.
   ### 1. Inceptionnet:
     - multiple Conv+maxpooling in one layer. output of each conv+maxpooling is same as input.
     - multiple inception block
@@ -648,8 +649,11 @@ This measure allows us to quantify the difference between two images based on th
       + Alexnet ---> bigger filter, lower depth
       + VGG     ---> lower filter, bigger depth
       there is usecase of bigger filter or usecase fo bigger depth
- 
 
+### Q. If image embedding architecture is Alexnet, vgg, rasnet and inception then what is transfer learning 
+Transfer learning is a machine learning technique where a model trained on one task is reused or adapted for a different but related task. In the context of image embedding using architectures like AlexNet, VGG, ResNet, and Inception, transfer learning involves taking a pre-trained model (trained on a large dataset, typically for image classification tasks) and fine-tuning it on a smaller dataset for a specific task, such as image embedding.
+
+Instead of training the entire model from scratch, which requires a large amount of labeled data and computational resources, transfer learning allows leveraging the knowledge captured by the pre-trained model. By fine-tuning only the final layers or a subset of layers, the model can be adapted to extract features relevant to the new task, such as generating image embeddings. This approach often leads to faster convergence and better performance, especially when the target dataset is small or similar to the dataset used for pre-training.
 # CNN for Medical Diagnosis
 Talk about another architecture that is little more efficient(meaning less number of parameters). and can be deployed on portable device lets says on a smartphone. - __Mobile Net__
 

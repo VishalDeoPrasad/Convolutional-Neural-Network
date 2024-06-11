@@ -34,6 +34,132 @@
 
 ![Alt text](https://miro.medium.com/v2/resize:fit:1358/1*D6iRfzDkz-sEzyjYoVZ73w.gif) 
 
+# Edge Detection
+### Q. Why we are using Edge Detection?
+1. Image processing algorithms take a long time to process the data because of the large images and the amount of information available in it.
+1. it is necessary to reduce the amount of information that the algorithm should focus on. Sometimes this could be done only by passing the edges of the image.
+1. applying an edge detection algorithm to an image may **significantly reduce the amount of data to be processed** and may therefore filter out information that may be regarded as less relevant while preserving the important structural properties of an image.
+1. reduce information form the image. example, a boy holding a football.
+1. Reduce unnecessary information in the image while preserving the structure of the image.
+1. Extract important features of an image such as corners, lines, and curves.
+1. Edges provide strong visual clues that can help the recognition process. 
+
+### Q. What is Edge Detection?
+- edge detection is the process of detecting the edges in an image.
+
+### Q. How indicate the boundaries of objects and surface markings?
+- Discontinuities in depth, surface orientation, scene illumination variations, and material properties changes lead to discontinuities in image brightness. We get the set of curves that indicate the boundaries of objects and surface markings, and curves that correspond to discontinuities in surface orientation.
+
+### Q. what are multiple approaches for edge detection.
+- Traditional approach
+- conventional approach: We use filter-based approaches such as Sobel and Prewitt filters
+- Deep learning-based approach
+
+#### let us discuss one of the most popular edge detection algorithms – The canny edge detector, and compare it with Sobel and Prewitt.
+## Canny Edge Detector
+The Canny Edge Detection algorithm is a widely used edge detection algorithm in today’s image processing applications. It works in multiple stages as shown in fig
+
+The input image is `smoothened`, `Sobel filter is applied to detect the edges of the image`. Then we apply `non-max suppression` where the local maximum pixels in the gradient direction are retained, and the rest are suppressed. We `apply thresholding` to remove pixels below a certain threshold and retain the pixels above a certain threshold to remove edges that could be formed due to noise. Later we apply `hysteresis` tracking to make a pixel strong if any of the 8 neighboring pixels are strong.
+
+![alt text](image-34.png)
+
+Now, we will discuss each step in detail.
+
+There are 5 steps involved in Canny edge detection, as shown in fig above. We will be using the following image for illustration.
+
+![alt text](image-35.png)
+
+### 1. Image Smoothening
+**def**: *Image smoothing, also known as blurring, is a common technique used in image processing to reduce noise and detail, resulting in a smoother appearance.*
+
+**How**: *There are various methods to achieve image smoothing, but one of the most common techniques is using a convolution operation with a Gaussian kernel.*
+
+**Why**: It's called "Gaussian" because its values are determined by the Gaussian function. The Gaussian function is a continuous probability distribution that is symmetric around its mean value, creating a bell-shaped curve.
+
+```python
+import cv2
+
+# Read the image
+image = cv2.imread('input_image.jpg')
+
+# Apply Gaussian blur
+smoothed_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), sigmaX)
+
+# Display the original and smoothed images
+cv2.imshow('Original Image', image)
+cv2.imshow('Smoothed Image', smoothed_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+`kernel_size`: determines the size of the Gaussian kernel. Larger values result in stronger smoothing. <br>
+`sigmaX`: sigmaX is the standard deviation of the Gaussian kernel. Higher values increase the blurring effect.
+```python
+from PIL import Image, ImageFilter
+
+# Open the image
+image = Image.open("input_image.jpg")
+
+# Apply Gaussian blur
+smoothed_image = image.filter(ImageFilter.GaussianBlur(radius))
+
+# Display the original and smoothed images
+image.show()
+smoothed_image.show()
+```
+`radius`: redius is the radius of the Gaussian blur filter. Higher values produce more smoothing.
+
+In this step, we convert the image to grayscale as edge detection does not dependent on colors. Then we remove the noise in the image with a Gaussian filter as edge detection is prone to noise.
+![alt text](image-36.png)
+
+### 2. Finding Intensity Gradients of the Image
+We then apply the Sobel kernel in horizontal and vertical directions to get the first derivative in the horizontal direction (Gx) and vertical direction (Gy) on the smoothened image. We then calculate the edge gradient(G) and Angle(θ) as given below,
+
+    Edge_Gradient(G) = √(Gx2+Gy2)
+
+    Angle(θ)=tan-1(Gy/Gx)
+
+We know that the gradient direction is perpendicular to the edge. We round the angle to one of four angles representing vertical, horizontal, and two diagonal directions. <br>
+![alt text](image-37.png)
+
+### 3. Non-Max Suppression
+Now we remove all the unwanted pixels which may not constitute the edge. For this, every pixel is checked in the direction of the gradient if it is a local maximum in its neighbourhood. If it is a local maximum, it is considered for the next stage, otherwise, it is darkened with 0. This will give a thin line in the output image.
+![alt text](image-38.png)
+
+### 4. Double Threshold
+Pixels due to noise and color variation would persist in the image. So, to remove this, we get two thresholds from the user, lowerVal and upperVal. We filter out edge pixels with a weak gradient(lowerVal) value and preserve edge pixels with a high gradient value(upperVal). Edges with an intensity gradient more than upperVal are sure to edge, and those below lowerVal are sure to be non-edges, so discarded. The pixels that have pixel value lesser than the upperVal and greater than the lowerVal are considered part of the edge if it is connected to a “sure-edge”. Otherwise, they are also discarded.
+
+### 5. Edge Tracking by Hysteresis
+A pixel is made as a strong pixel if either of the 8 pixels around it is strong(pixel value=255) else it is made as 0. <br>
+![alt text](image-39.png) <br>
+Now, we will explore the deep learning-based approaches for edge detection. But why do we need to go for the Deep Learning based edge detection algorithms in the first place? Canny edge detection focuses only on local changes, and it does not understand the image’s semantics, i.e., the content. Hence, Deep Learning based algorithms are proposed to solve these problems. We will discuss it in detail now.
+
+But before we dive into the math of Deep learning, let us first try to implement the canny edge detector and the deep learning-based model(HED) in OpenCV.
+
+### Implementation-Canny Edge detection
+```python
+import cv2 
+from skimage.metrics import mean_squared_error,peak_signal_noise_ratio,structural_similarity
+import matplotlib.pyplot as plt
+
+img_path = 'starfish.png'
+#Reading the image
+image = cv2.imread(img_path)
+
+(H, W) = image.shape[:2]
+# convert the image to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# blur the image
+blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+# Perform the canny operator
+canny = cv2.Canny(blurred, 30, 150)
+
+fig,ax =  plt.subplots(1,2,figsize=(18, 18))
+ax[0].imshow(gray,cmap='gray')
+ax[1].imshow(canny,cmap='gray')
+ax[0].axis('off')
+ax[1].axis('off')
+```
+![alt text](image-40.png)
 ### 1. Edge Filter(Vertical edge detector)
 ![Alt text](https://media.licdn.com/dms/image/C5112AQHeSoRNyzPq0w/article-cover_image-shrink_720_1280/0/1520791281138?e=1710979200&v=beta&t=5b9-zyO_TYepSJGVqcefYr-xx6-3BsLjLFiXTkgAZhM) 
  - left size - white region, middle - dark region, right side - darker region
@@ -491,7 +617,8 @@ This measure allows us to quantify the difference between two images based on th
 
   * if we stop till flatten vector it is good representation of an image.
 
-## We have 2 main Architecture for image embedding.
+## Architecture for image embedding.
+There are several architectures commonly used for image embedding, with Convolutional Neural Networks (CNNs) being the most popular. Architectures like AlexNet, VGG, ResNet, and Inception are frequently used for tasks like image classification, object detection, and image embedding. These networks typically consist of convolutional layers followed by pooling layers, often with additional components like normalization layers, skip connections, and fully connected layers. Variants of these architectures are also used for specific tasks, such as Siamese networks for image similarity tasks and autoencoders for unsupervised learning of image representations.
   ### 1. Inceptionnet:
     - multiple Conv+maxpooling in one layer. output of each conv+maxpooling is same as input.
     - multiple inception block
@@ -522,8 +649,11 @@ This measure allows us to quantify the difference between two images based on th
       + Alexnet ---> bigger filter, lower depth
       + VGG     ---> lower filter, bigger depth
       there is usecase of bigger filter or usecase fo bigger depth
- 
 
+### Q. If image embedding architecture is Alexnet, vgg, rasnet and inception then what is transfer learning 
+Transfer learning is a machine learning technique where a model trained on one task is reused or adapted for a different but related task. In the context of image embedding using architectures like AlexNet, VGG, ResNet, and Inception, transfer learning involves taking a pre-trained model (trained on a large dataset, typically for image classification tasks) and fine-tuning it on a smaller dataset for a specific task, such as image embedding.
+
+Instead of training the entire model from scratch, which requires a large amount of labeled data and computational resources, transfer learning allows leveraging the knowledge captured by the pre-trained model. By fine-tuning only the final layers or a subset of layers, the model can be adapted to extract features relevant to the new task, such as generating image embeddings. This approach often leads to faster convergence and better performance, especially when the target dataset is small or similar to the dataset used for pre-training.
 # CNN for Medical Diagnosis
 Talk about another architecture that is little more efficient(meaning less number of parameters). and can be deployed on portable device lets says on a smartphone. - __Mobile Net__
 
